@@ -1,13 +1,12 @@
 using FileWatcherService;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 // TODO: implement configs for multiple clients
+var clientDirectory = @"C:\FTP";
 
 builder.Services.AddSingleton<IFileWatcherService>(provider =>
-    new FileWatcherService.FileWatcherService("<path>", provider.GetRequiredService<ILogger<FileWatcherService.FileWatcherService>>()));
+    new FileWatcherService.FileWatcherService(clientDirectory, provider.GetRequiredService<ILogger<FileWatcherService.FileWatcherService>>()));
 
 builder.Services.AddHostedService<Worker>();
 
