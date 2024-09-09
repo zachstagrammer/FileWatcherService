@@ -39,24 +39,24 @@ namespace FileWatcherService
             _logger.LogInformation("File watcher stopped.");
         }
 
-        private void OnCreated(object sender, FileSystemEventArgs e)
+        protected virtual void OnCreated(object sender, FileSystemEventArgs e)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"File created: {e.FullPath}");
         }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
+        protected virtual void OnChanged(object sender, FileSystemEventArgs e)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"File changed: {e.FullPath}");
         }
 
-        private void OnDeleted(object sender, FileSystemEventArgs e)
+        protected virtual void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"File deleted: {e.FullPath}");
         }
 
         private void OnError(object sender, ErrorEventArgs e)
         {
-            throw new NotImplementedException();
+            _logger.LogError(e.GetException().Message);
         }
     }
 }
