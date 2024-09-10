@@ -13,6 +13,7 @@ namespace FileWatcherService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("Worker starting...");
             while (!stoppingToken.IsCancellationRequested)
             {
                 foreach (var fileWatcherService in _fileWatcherServices)
@@ -21,7 +22,7 @@ namespace FileWatcherService
                 }
             }
 
-            _logger.LogInformation("Worker stopping.");
+            _logger.LogInformation("Worker stopping...");
             foreach (var fileWatcherService in _fileWatcherServices)
             {
                 fileWatcherService.StopWatching();

@@ -8,8 +8,8 @@ namespace FileWatcherService
 {
     public class FileWatcherService : IFileWatcherService
     {
-        private readonly FileSystemWatcher _fileWatcher;
-        private readonly ILogger<FileWatcherService> _logger;
+        protected readonly FileSystemWatcher _fileWatcher;
+        protected readonly ILogger<FileWatcherService> _logger;
 
         public FileWatcherService(string directoryToWatch, ILogger<FileWatcherService> logger)
         {
@@ -29,14 +29,14 @@ namespace FileWatcherService
         public void StartWatching()
         {
             _fileWatcher.EnableRaisingEvents = true;
-            _logger.LogInformation("File watcher started.");
+            _logger.LogInformation($"File watcher started: {_fileWatcher.GetType().Name}");
         }
 
         public void StopWatching()
         {
             _fileWatcher.EnableRaisingEvents= false;
             _fileWatcher.Dispose();
-            _logger.LogInformation("File watcher stopped.");
+            _logger.LogInformation($"File watcher stopped: {_fileWatcher.GetType().Name}");
         }
 
         protected virtual void OnCreated(object sender, FileSystemEventArgs e)

@@ -4,5 +4,17 @@
       "Default": "Information",
       "Microsoft.Hosting.Lifetime": "Information"
     }
-  }
+  },
+  "Clients": [
+    {
+      "ClientName": "Client1",
+      "DirectoryToWatch": "C:/FTP/Client1",
+      "ServiceType": "FileWatcherService.ClientServices.Client1FileWatcherService"
+    },
+    {
+      "ClientName": "Client2",
+      "DirectoryToWatch": "C:/FTP/Client2",
+      "ServiceType": "FileWatcherService.ClientServices.Client2FileWatcherService"
+    }
+  ]
 }
