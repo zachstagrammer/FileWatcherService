@@ -13,6 +13,12 @@ namespace FileWatcherService
 
         public FileWatcherService(string directoryToWatch, ILogger<FileWatcherService> logger)
         {
+            if (!Directory.Exists(directoryToWatch))
+            {
+                _logger.LogError($"Directory does not exist: {directoryToWatch}");
+                throw new DirectoryNotFoundException($"Directory does not exist: {directoryToWatch}");
+            }
+
             _fileWatcher = new FileSystemWatcher(directoryToWatch)
             {
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName
