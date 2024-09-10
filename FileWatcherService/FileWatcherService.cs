@@ -13,6 +13,8 @@ namespace FileWatcherService
 
         public FileWatcherService(string directoryToWatch, ILogger<FileWatcherService> logger)
         {
+            _logger = logger;
+
             if (!Directory.Exists(directoryToWatch))
             {
                 _logger.LogError($"Directory does not exist: {directoryToWatch}");
@@ -28,8 +30,6 @@ namespace FileWatcherService
             _fileWatcher.Changed += OnChanged;
             _fileWatcher.Deleted += OnDeleted;
             _fileWatcher.Error += OnError;
-
-            _logger = logger;
         }
 
         public void StartWatching()
