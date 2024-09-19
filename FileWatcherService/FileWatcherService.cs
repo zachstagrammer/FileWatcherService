@@ -34,13 +34,21 @@ namespace FileWatcherService
 
         public void StartWatching()
         {
-            _fileWatcher.EnableRaisingEvents = true;
-            _logger.LogInformation($"File watcher started.");
+            try
+            {
+                _fileWatcher.EnableRaisingEvents = true;
+                _logger.LogInformation("File watcher started, monitoring directory: {Directory}", _fileWatcher.Path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while starting the FileSystemWatcher");
+                RestartFileWatcher();
+            }
         }
 
         public void StopWatching()
         {
-            _fileWatcher.EnableRaisingEvents= false;
+            _fileWatcher.EnableRaisingEvents = false;
             _fileWatcher.Dispose();
             _logger.LogInformation($"File watcher stopped.");
         }
@@ -63,6 +71,29 @@ namespace FileWatcherService
         private void OnError(object sender, ErrorEventArgs e)
         {
             _logger.LogError(e.GetException().Message);
+            RestartFileWatcher();
+        }
+
+        private void RestartFileWatcher()
+        {
+            _fileWatcher.EnableRaisingEvents = false;
+            Thread.Sleep(5000); // 5 second delay
+
+            while (true)
+            {
+                try
+                {
+                    _logger.LogInformation("Attempting to restart FileSystemWatcher");
+                    _fileWatcher.EnableRaisingEvents = true;
+                    _logger.LogInformation("File watcher successfully started, monitoring directory: {Directory}", _fileWatcher.Path);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to restart FileSystemWatcher, retrying in 2 minutes...");
+                    Thread.Sleep(2 * 60 * 1000); // 2 minute delay
+                }
+            }
         }
     }
 }
