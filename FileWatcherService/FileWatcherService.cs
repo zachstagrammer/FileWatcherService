@@ -35,14 +35,14 @@ namespace FileWatcherService
         public void StartWatching()
         {
             _fileWatcher.EnableRaisingEvents = true;
-            _logger.LogInformation($"File watcher started: {_fileWatcher.GetType().Name}");
+            _logger.LogInformation($"File watcher started.");
         }
 
         public void StopWatching()
         {
             _fileWatcher.EnableRaisingEvents= false;
             _fileWatcher.Dispose();
-            _logger.LogInformation($"File watcher stopped: {_fileWatcher.GetType().Name}");
+            _logger.LogInformation($"File watcher stopped.");
         }
 
         protected virtual void OnCreated(object sender, FileSystemEventArgs e)
