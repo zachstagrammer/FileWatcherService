@@ -14,8 +14,9 @@
       {
         "Name": "File",
         "Args": {
-          "path": "C:\\Logs\\FileWatcherService\\FWS_log.txt",
-          "outputTemplate": "{Timestamp:G} -- {Message}{NewLine:1}{Exception:1}"
+          "path": "C:\\Logs\\FileWatcherService\\FileWatcherService_log.txt",
+          "outputTemplate": "{Timestamp:G} -- {Message}{NewLine:1}{Exception:1}",
+          "rollingInterval":  "Day"
         }
       }
     ]
