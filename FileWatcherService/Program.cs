@@ -16,14 +16,21 @@ builder.Logging.AddSerilog(Log.Logger);
 try
 {
     Log.Information("Worker service starting up...");
-    var clientConfigs = builder.Configuration.GetSection("Clients").Get<List<ClientConfig>>();
+    var clientSelection = builder.Configuration.GetSection("Clients");
 
-    if (clientConfigs == null)
+    if (!clientSelection.Exists())
     {
-        throw new InvalidOperationException("No client configuration found.");
+        throw new Exception("Client configuration does not exist.");
     }
 
-    foreach (var clientConfig in clientConfigs)
+    var clientChildren = clientSelection.Get<List<ClientConfig>>();
+
+    if (clientChildren == null)
+    {
+        throw new Exception("Client list is null.");
+    }
+
+    foreach (var clientConfig in clientChildren)
     {
         var serviceType = Type.GetType(clientConfig.ServiceType);
 
@@ -52,7 +59,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "The service failed to start correctly.");
+    Log.Fatal(ex, "The worker service failed to start correctly.");
 }
 finally
 {
