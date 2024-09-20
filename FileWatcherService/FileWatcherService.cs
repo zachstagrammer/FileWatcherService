@@ -12,6 +12,7 @@ namespace FileWatcherService
         protected readonly ILogger<FileWatcherService> _logger;
 
         public string DirectoryToWatch { get; private set; }
+        public bool IsWatching => _fileWatcher.EnableRaisingEvents;
 
         public FileWatcherService(string directoryToWatch, ILogger<FileWatcherService> logger)
         {
@@ -34,6 +35,8 @@ namespace FileWatcherService
             _fileWatcher.Deleted += OnDeleted;
             _fileWatcher.Error += OnError;
         }
+
+
 
         public void StartWatching()
         {
