@@ -11,16 +11,19 @@ namespace FileWatcherService
         protected readonly FileSystemWatcher _fileWatcher;
         protected readonly ILogger<FileWatcherService> _logger;
 
+        public string DirectoryToWatch { get; private set; }
+
         public FileWatcherService(string directoryToWatch, ILogger<FileWatcherService> logger)
         {
             _logger = logger;
 
             if (!Directory.Exists(directoryToWatch))
             {
-                _logger.LogError($"Directory does not exist: {directoryToWatch}");
+                _logger.LogError("Directory does not exist: {DirectoryToWatch}", directoryToWatch);
                 throw new DirectoryNotFoundException($"Directory does not exist: {directoryToWatch}");
             }
 
+            DirectoryToWatch = directoryToWatch;
             _fileWatcher = new FileSystemWatcher(directoryToWatch)
             {
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName
@@ -50,7 +53,7 @@ namespace FileWatcherService
         {
             _fileWatcher.EnableRaisingEvents = false;
             _fileWatcher.Dispose();
-            _logger.LogInformation($"File watcher stopped.");
+            _logger.LogInformation("File watcher stopped.");
         }
 
         public void RestartFileWatcher()
