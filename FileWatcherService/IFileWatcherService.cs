@@ -4,5 +4,6 @@
     {
         void StartWatching();
         void StopWatching();
+        void RestartFileWatcher();
     }
 }

@@ -53,28 +53,7 @@ namespace FileWatcherService
             _logger.LogInformation($"File watcher stopped.");
         }
 
-        protected virtual void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            _logger.LogInformation($"File created: {e.FullPath}");
-        }
-
-        protected virtual void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            _logger.LogInformation($"File changed: {e.FullPath}");
-        }
-
-        protected virtual void OnDeleted(object sender, FileSystemEventArgs e)
-        {
-            _logger.LogInformation($"File deleted: {e.FullPath}");
-        }
-
-        private void OnError(object sender, ErrorEventArgs e)
-        {
-            _logger.LogError(e.GetException().Message);
-            RestartFileWatcher();
-        }
-
-        private void RestartFileWatcher()
+        public void RestartFileWatcher()
         {
             _fileWatcher.EnableRaisingEvents = false;
             Thread.Sleep(5000); // 5 second delay
@@ -94,6 +73,27 @@ namespace FileWatcherService
                     Thread.Sleep(2 * 60 * 1000); // 2 minute delay
                 }
             }
+        }
+
+        protected virtual void OnCreated(object sender, FileSystemEventArgs e)
+        {
+            _logger.LogInformation("File created: {FilePath}", e.FullPath);
+        }
+
+        protected virtual void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            _logger.LogInformation("File changed: {FilePath}", e.FullPath);
+        }
+
+        protected virtual void OnDeleted(object sender, FileSystemEventArgs e)
+        {
+            _logger.LogInformation("File deleted: {FilePath}", e.FullPath);
+        }
+
+        private void OnError(object sender, ErrorEventArgs e)
+        {
+            _logger.LogError(e.GetException().Message);
+            RestartFileWatcher();
         }
     }
 }
