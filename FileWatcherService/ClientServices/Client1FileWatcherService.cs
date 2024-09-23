@@ -12,7 +12,8 @@ namespace FileWatcherService.ClientServices
         {
 
         }
-
+        
+        /*
         protected override void OnCreated(object sender, FileSystemEventArgs e)
         {
             // client1 specific logic
@@ -23,9 +24,15 @@ namespace FileWatcherService.ClientServices
             // client1 specific logic
         }
 
+        protected override void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            // client1 speficic logic
+        }
+
         protected override void OnDeleted(object sender, FileSystemEventArgs e)
         {
             // client1 specific logic
         }
+        */
     }
 }

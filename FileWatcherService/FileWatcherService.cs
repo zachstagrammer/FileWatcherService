@@ -32,6 +32,7 @@ namespace FileWatcherService
 
             _fileWatcher.Created += OnCreated;
             _fileWatcher.Changed += OnChanged;
+            _fileWatcher.Renamed += OnRenamed;
             _fileWatcher.Deleted += OnDeleted;
             _fileWatcher.Error += OnError;
         }
@@ -91,6 +92,11 @@ namespace FileWatcherService
         protected virtual void OnChanged(object sender, FileSystemEventArgs e)
         {
             _logger.LogInformation("File changed: {FilePath}", e.FullPath);
+        }
+
+        protected virtual void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            _logger.LogInformation("File renamed from {OldName} to {NewName}", e.OldName, e.FullPath);
         }
 
         protected virtual void OnDeleted(object sender, FileSystemEventArgs e)
