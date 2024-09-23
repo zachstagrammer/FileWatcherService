@@ -35,6 +35,7 @@ namespace FileWatcherService
             foreach (var fileWatcherService in _fileWatcherServices)
             {
                 fileWatcherService.StopWatching();
+                fileWatcherService.Dispose();
             }
         }
 
@@ -42,14 +43,14 @@ namespace FileWatcherService
         {
             if (!Directory.Exists(fileWatcherService.DirectoryToWatch) && fileWatcherService.IsWatching)
             {
-                _logger.LogWarning("Directory '{DirectoryToWatch}' is unavailable.", fileWatcherService.DirectoryToWatch);
+                _logger.LogWarning("Directory {DirectoryToWatch} is unavailable.", fileWatcherService.DirectoryToWatch);
                 fileWatcherService.StopWatching();
                 await Task.Delay(5 * 1000, stoppingToken);
             }
 
             if (Directory.Exists(fileWatcherService.DirectoryToWatch) && !fileWatcherService.IsWatching)
             {
-                _logger.LogInformation("Directory '{DirectoryToWatch}' is now available. Restarting watcher...", fileWatcherService.DirectoryToWatch);
+                _logger.LogInformation("Directory {DirectoryToWatch} is now available. Restarting watcher...", fileWatcherService.DirectoryToWatch);
                 fileWatcherService.StartWatching();
             }
         }

@@ -36,8 +36,6 @@ namespace FileWatcherService
             _fileWatcher.Error += OnError;
         }
 
-
-
         public void StartWatching()
         {
             try
@@ -55,7 +53,6 @@ namespace FileWatcherService
         public void StopWatching()
         {
             _fileWatcher.EnableRaisingEvents = false;
-            _fileWatcher.Dispose();
             _logger.LogInformation("File watcher stopped.");
         }
 
@@ -79,6 +76,11 @@ namespace FileWatcherService
                     Thread.Sleep(2 * 60 * 1000); // 2 minute delay
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            _fileWatcher.Dispose();
         }
 
         protected virtual void OnCreated(object sender, FileSystemEventArgs e)
